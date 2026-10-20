@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexusCare Aura — Hackathon Healthcare Operating System</title>
+  <meta name="description" content="A polished, trustworthy, inclusive healthcare platform website connecting patients, clinical staff, and hospital administrators.">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Scroll Progress Glow Indicator -->
+  <div id="scroll-progress-bar" role="progressbar" aria-label="Reading progress"></div>
+
+  <!-- Ambient Dark Animated Background with Glowing Aurora Orbs & Bio-Grid -->
+  <div class="ambient-aurora-bg" aria-hidden="true">
+    <div class="aurora-orb aurora-orb-1"></div>
+    <div class="aurora-orb aurora-orb-2"></div>
+    <div class="aurora-orb aurora-orb-3"></div>
+    <div class="bio-grid-overlay"></div>
+  </div>
+
+  <!-- ==========================================================================
+       0. TOP JUDGE EXPLORE DEMO BAR (Instant Role Switcher)
+       ========================================================================== -->
+  <aside class="judge-explore-bar" role="region" aria-label="Hackathon Judge Quick Switcher">
+    <div style="display: flex; align-items: center; gap: 0.65rem;">
+      <span class="judge-tag">⚡ Judge Mode</span>
+      <span style="color: var(--text-muted); font-size: 0.78rem;">Explore all roles & facilities without account creation:</span>
+    </div>
+
+    <!-- 1-Click Role Switcher -->
+    <div class="role-switcher-tabs">
+      <button class="role-tab-btn active" data-role-switch="guest" title="Public Landing & 3 Entry Paths">
+        <span>🌟</span><span>Landing View</span>
+      </button>
+      <button class="role-tab-btn" data-role-switch="patient" title="Patient Ali Jafar / Ramesh Kumar (Ref 1)">
+        <span>👤</span><span>Patient Dashboard (Ref 1)</span>
+      </button>
+      <button class="role-tab-btn" data-role-switch="staff" title="Dr. Priya Nair 'intelly' Workstation (Ref 3)">
+        <span>🩺</span><span>Staff Workstation (Ref 3)</span>
+      </button>
+      <button class="role-tab-btn" data-role-switch="admin" title="Hospital Administrator Capacity View">
+        <span>🏛️</span><span>Hospital Admin</span>
+      </button>
+    </div>
+
+    <!-- Quick Jump Tool Pills -->
+    <div class="judge-tools">
+      <button class="judge-pill" onclick="navigateToView('architecture')">
+        <span>📐</span><span>AI Architecture (Ref 2)</span>
+      </button>
+      <button class="judge-pill" onclick="navigateToView('cinema-booking')">
+        <span>🎟️</span><span>Vacancy Matrix</span>
+      </button>
+      <button class="judge-pill" onclick="navigateToView('symptom-assistant')">
+        <span>🚨</span><span>Symptom Triage</span>
+      </button>
+      <button class="judge-pill" onclick="openAmbulanceModal()">
+        <span>🚑</span><span>108 Ambulance</span>
+      </button>
+      <button class="judge-pill" onclick="navigateToView('hospital-search')">
+        <span>🏥</span><span>Nearby Hospitals</span>
+      </button>
+      <button class="judge-pill" onclick="navigateToView('pharmacy')">
+        <span>💊</span><span>Pre-Orders</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       INFINITE SCROLL MARQUEE: LIVE APPOINTMENT VACANCIES & ER STATUS
+       ========================================================================== -->
+  <div class="marquee-vacancy-strip" aria-label="Live Hospital Appointment Vacancies Marquee">
+    <div class="marquee-vacancy-track">
+      <div class="marquee-vacancy-card" onclick="navigateToView('cinema-booking')">
+        <span style="font-size: 1rem;">🫀</span>
+        <span style="font-weight: 700;">Fortis Heart Center:</span>
+        <span class="marquee-badge-vacant">11 Vacancies Open</span>
+        <span style="font-size: 0.72rem; color: var(--mint-300);">● Cath Lab Ready</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">ER Wait: 12m</span>
+      </div>
+      <div class="marquee-vacancy-card" onclick="navigateToView('hospital-search')">
+        <span style="font-size: 1rem;">🚨</span>
+        <span style="font-weight: 700;">AIIMS Trauma Bay:</span>
+        <span class="marquee-badge-vacant" style="border-color: #EF4444; color: #FCA5A5; background: rgba(239,68,68,0.2);">6 Critical Vacancies</span>
+        <span style="font-size: 0.72rem; color: #FCA5A5;">● Resus Ready</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">ER Wait: 18m</span>
+      </div>
+      <div class="marquee-vacancy-card" onclick="navigateToView('cinema-booking')">
+        <span style="font-size: 1rem;">🦴</span>
+        <span style="font-weight: 700;">St. Jude Ortho Institute:</span>
+        <span class="marquee-badge-vacant">9 Vacancies Open</span>
+        <span style="font-size: 0.72rem; color: var(--mint-300);">● Fracture Suite Active</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">ER Wait: 15m</span>
+      </div>
+      <div class="marquee-vacancy-card" onclick="navigateToView('hospital-search')">
+        <span style="font-size: 1rem;">🧸</span>
+        <span style="font-weight: 700;">City Children's Hospital:</span>
+        <span class="marquee-badge-vacant">18 Vacancies Open</span>
+        <span style="font-size: 0.72rem; color: var(--mint-300);">● NICU Ready</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">ER Wait: 8m</span>
+      </div>
+      <div class="marquee-vacancy-card" onclick="navigateToView('cinema-booking')">
+        <span style="font-size: 1rem;">🩺</span>
+        <span style="font-weight: 700;">Apex Community Clinic:</span>
+        <span class="marquee-badge-vacant">22 Walk-in Vacancies</span>
+        <span style="font-size: 0.72rem; color: var(--mint-300);">● Zero Waiting</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">ER Wait: 4m</span>
+      </div>
+      <!-- Duplicate set for infinite loop -->
+      <div class="marquee-vacancy-card" onclick="navigateToView('cinema-booking')">
+        <span style="font-size: 1rem;">🫀</span>
+        <span style="font-weight: 700;">Fortis Heart Center:</span>
+        <span class="marquee-badge-vacant">11 Vacancies Open</span>
+        <span style="font-size: 0.72rem; color: var(--mint-300);">● Cath Lab Ready</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">ER Wait: 12m</span>
+      </div>
+      <div class="marquee-vacancy-card" onclick="navigateToView('hospital-search')">
+        <span style="font-size: 1rem;">🚨</span>
+        <span style="font-weight: 700;">AIIMS Trauma Bay:</span>
+        <span class="marquee-badge-vacant" style="border-color: #EF4444; color: #FCA5A5; background: rgba(239,68,68,0.2);">6 Critical Vacancies</span>
+        <span style="font-size: 0.72rem; color: #FCA5A5;">● Resus Ready</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">ER Wait: 18m</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       APP WINDOW SHELL & macOS DOCK (Ref 1, Ref 3, Ref 4)
+       ========================================================================== -->
+  <div class="os-outer-shell">
+    <div class="os-window-frame">
+
+      <!-- Dark Vertical Dock on Left (Ref 1 & Ref 4) -->
+      <aside class="macos-vertical-dock" aria-label="Operating System Dock">
+        <div class="dock-top-group">
+          <!-- Brand Emblem -->
+          <div class="dock-brand-emblem" id="dock-brand-logo" title="NexusCare Aura OS">
+            🫀
+          </div>
+
+          <!-- Navigation Icons -->
+          <nav class="dock-nav-items">
+            <button class="dock-btn active" data-nav="landing" data-tooltip="Home / Entry Portals">
+              <span>🏠</span>
+            </button>
+            <button class="dock-btn" data-nav="patient-dash" data-tooltip="Patient Dashboard (Ref 1)">
+              <span>👤</span>
+            </button>
+            <button class="dock-btn" data-nav="staff-dash" data-tooltip="Staff 'intelly' Workstation (Ref 3)">
+              <span>🩺</span>
+            </button>
+            <button class="dock-btn" data-nav="admin-capacity" data-tooltip="Hospital Admin Capacity">
+              <span>🏛️</span>
+            </button>
+            <button class="dock-btn" data-nav="architecture" data-tooltip="AI Ecosystem Architecture (Ref 2)">
+              <span>📐</span>
+            </button>
+            <button class="dock-btn" data-nav="cinema-booking" data-tooltip="Appointment Vacancy Matrix">
+              <span>🎟️</span>
+            </button>
+            <button class="dock-btn" data-nav="symptom-assistant" data-tooltip="Symptom Triage Assistant">
+              <span>🚨</span>
+            </button>
+            <button class="dock-btn" data-nav="hospital-search" data-tooltip="Nearby Hospitals & Urgent Care">
+              <span>🏥</span>
+            </button>
+            <button class="dock-btn" data-nav="pharmacy" data-tooltip="Hospital Pharmacy & Pre-Orders">
+              <span>💊</span>
+            </button>
+            <button class="dock-btn" data-nav="care-timeline" data-tooltip="Care Timeline & Records">
+              <span>📅</span>
+            </button>
+            <button class="dock-btn" data-nav="safety-reviews" data-tooltip="Safety Incident Tracker">
+              <span>⚠️</span>
+            </button>
+          </nav>
+        </div>
+
+        <div class="dock-bottom-group">
+          <button class="dock-btn" data-nav="settings" data-tooltip="Accessibility & Settings">
+            <span>⚙️</span>
+          </button>
+          <div class="dock-avatar-box" id="dock-user-avatar" title="Switch User Profile">
+            <span>👨‍💼</span>
+            <span class="dock-avatar-status"></span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Canvas Inside OS Window -->
+      <div class="os-window-content">
+
+        <!-- Top Header Bar with Traffic Lights, Greeting & Category Search (Ref 1 & 3) -->
+        <header class="window-top-bar">
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <!-- Traffic Lights -->
+            <div class="window-traffic-lights">
+              <span class="traffic-dot red" title="Close Window" onclick="navigateToView('landing')"></span>
+              <span class="traffic-dot yellow" title="Minimize"></span>
+              <span class="traffic-dot green" title="Maximize Viewport"></span>
+            </div>
+
+            <!-- Dynamic Role Greeting (Ref 1 & Ref 3) -->
+            <div>
+              <div class="header-greeting-title" id="top-bar-greeting">
+                Hello Ali 👋 <span style="font-weight: 400; color: var(--text-muted); font-size: 0.95rem;">Welcome Back</span>
+              </div>
+              <div class="header-greeting-sub" id="top-bar-sub">
+                Review your health status, consultation logs, and upcoming checkups.
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Search Bar (Ref 3 "intelly") -->
+          <div class="intelly-search-wrap">
+            <span>🔍</span>
+            <input type="text" id="global-search-input" class="intelly-search-input" placeholder="Search patients, doctors, care plans, meds...">
+            <div class="intelly-category-chips">
+              <button class="cat-chip active" data-cat="all">All</button>
+              <button class="cat-chip" data-cat="patients">Patients</button>
+              <button class="cat-chip" data-cat="prescriptions">Prescriptions</button>
+              <button class="cat-chip" data-cat="tests">Test results</button>
+            </div>
+          </div>
+
+          <!-- Quick Actions & Profile -->
+          <div class="header-controls-right">
+            <button class="icon-btn-round" onclick="openAmbulanceModal()" title="108 Emergency Dispatch" style="border-color: #EF4444; color: #FCA5A5;">
+              🚑
+            </button>
+            <button class="icon-btn-round" onclick="openTelehealthModal()" title="Instant Telehealth Call">
+              📞
+            </button>
+            <button class="icon-btn-round" onclick="navigateToView('settings')" title="Accessibility Controls">
+              👁️
+            </button>
+          </div>
+        </header>
+
+        <!-- Main View Container -->
+        <main class="app-main-container">
+
+          <!-- ====================================================================
+               VIEW 1: LANDING PAGE WITH THREE DISTINCT ENTRY PATHS
+               ==================================================================== -->
+          <section id="view-landing" class="view-section">
+            <div class="landing-hero mirror-card" style="padding: 3rem 2rem;">
+              <div class="hero-pill-badge">
+                <span class="pulse-mint"></span>
+                <span>Responsible Clinical Operating System • PMJAY & ABHA Cashless Ready</span>
+              </div>
+
+              <h1 class="hero-headline">
+                Help People Get <span class="gradient-text">Appropriate Care Sooner</span>, Reduce Avoidable Hospital Visits.
+              </h1>
+
+              <p class="hero-subhead">
+                NexusCare Aura is designed to support clinical professionals—not replace them. By combining transparent appointment vacancy matrix balancing, live hospital capacity forecasting, and preliminary triage assistance, we help patients spend less time in waiting halls and get the right care at the right facility.
+              </p>
+
+              <!-- Live Network Status -->
+              <div style="display: inline-flex; align-items: center; gap: 1rem; background: rgba(12, 28, 20, 0.85); border: 1.5px solid var(--mint-border); padding: 0.5rem 1.25rem; border-radius: var(--radius-full); font-size: 0.82rem; color: var(--text-bright); margin-bottom: 2rem;">
+                <span style="font-weight: 800; color: var(--mint-300);">● LIVE NETWORK STATUS:</span>
+                <span>Metro General: <strong>14 min wait</strong></span>
+                <span>•</span>
+                <span>St. Jude Trauma: <strong>Cath Lab 01 Available</strong></span>
+                <span>•</span>
+                <span>City Pediatrics: <strong>8 min wait</strong></span>
+              </div>
+
+              <!-- The Three Distinct Entry Paths (Core Requirement) -->
+              <div class="entry-portals-grid">
+                <!-- Path 1: Patient Login or Registration -->
+                <div class="portal-card featured mirror-card">
+                  <div>
+                    <div class="portal-icon-wrap">👤</div>
+                    <div style="font-size: 0.72rem; color: var(--mint-300); font-weight: 800; text-transform: uppercase;">
+                      Entry Path 01
+                    </div>
+                    <h2 class="portal-title">Patient Portal</h2>
+                    <p class="portal-desc">
+                      Access your 3D anatomy visualization, check live hospital wait times, explore appointment vacancies, discuss symptoms with the assistant, and manage pre-orders.
+                    </p>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+                    <button class="btn-primary-forest" onclick="handleRoleSwitch('patient')">
+                      <span>👤 Enter Patient Dashboard (Demo)</span>
+                      <span>→</span>
+                    </button>
+                    <button class="btn-outline-forest" onclick="openLoginModal('patient')">
+                      Register / Sign in with ABHA ID
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Path 2: Hospital Staff Login -->
+                <div class="portal-card mirror-card">
+                  <div>
+                    <div class="portal-icon-wrap" style="background: rgba(59, 130, 246, 0.15); color: #60A5FA;">🩺</div>
+                    <div style="font-size: 0.72rem; color: #60A5FA; font-weight: 800; text-transform: uppercase;">
+                      Entry Path 02
+                    </div>
+                    <h2 class="portal-title">Hospital Staff Login</h2>
+                    <p class="portal-desc">
+                      Clinical workstation for doctors, triage nurses, and pharmacists. Manage shift schedules, patient queue, break allocations, and review preliminary AI guidance.
+                    </p>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+                    <button class="btn-primary-forest" style="background: linear-gradient(135deg, #1D4ED8, #3B82F6);" onclick="handleRoleSwitch('staff')">
+                      <span>🩺 Enter Staff Workstation (Demo)</span>
+                      <span>→</span>
+                    </button>
+                    <button class="btn-outline-forest" onclick="openLoginModal('staff')">
+                      Sign In with Hospital ID
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Path 3: Hospital Registration / Partnership -->
+                <div class="portal-card mirror-card">
+                  <div>
+                    <div class="portal-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">🏛️</div>
+                    <div style="font-size: 0.72rem; color: #FBBF24; font-weight: 800; text-transform: uppercase;">
+                      Entry Path 03
+                    </div>
+                    <h2 class="portal-title">Hospital Partnership</h2>
+                    <p class="portal-desc">
+                      Join the NexusCare regional healthcare network. Publish appointment vacancies, broadcast wait times, and optimize hospital capacity with human-in-the-loop AI.
+                    </p>
+                  </div>
+                  <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+                    <button class="btn-primary-forest" style="background: linear-gradient(135deg, #B45309, #D97706);" onclick="handleRoleSwitch('admin')">
+                      <span>🏛️ View Hospital Admin Portal</span>
+                      <span>→</span>
+                    </button>
+                    <button class="btn-outline-forest" onclick="openHospitalPartnerModal()">
+                      Partner With Us / Register Facility
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Metrics Strip -->
+              <div class="landing-metrics-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">
+                <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                  <div style="font-size: 1.8rem; font-weight: 800; color: var(--mint-300);">38%</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Avoidable hospital visits diverted via cautious home guidance</div>
+                </div>
+                <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                  <div style="font-size: 1.8rem; font-weight: 800; color: #60A5FA;">14 min</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Average OPD wait time reduction via vacancy balancing</div>
+                </div>
+                <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                  <div style="font-size: 1.8rem; font-weight: 800; color: var(--mint-300);">100%</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Human clinical review safeguard on all AI guidance</div>
+                </div>
+                <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                  <div style="font-size: 1.8rem; font-weight: 800; color: #FCD34D;">4.9 / 5</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Verified patient trust score across partner hospitals</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ====================================================================
+               VIEW 2: PATIENT DASHBOARD (Matching Reference 1 Exactly)
+               ==================================================================== -->
+          <section id="view-patient-dash" class="view-section hidden">
+            
+            <!-- Adaptive Care Navigator Bar -->
+            <div class="mirror-card" style="padding: 1rem 1.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--mint-400);">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <span style="font-size: 1.6rem;">🧭</span>
+                <div>
+                  <div style="font-size: 0.72rem; color: var(--mint-300); font-weight: 800; text-transform: uppercase;">Care Navigator • What should I do next?</div>
+                  <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-bright);">
+                    Follow-up consultation with Dr. Priya Nair today at 11:00 AM (Room 204).
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">
+                    Current wait: 14 mins • Suggested arrival: 10:45 AM • Travel time: 18 mins.
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn-primary-forest" onclick="navigateToView('cinema-booking')">
+                  🎟️ View Chamber Vacancies
+                </button>
+                <button class="btn-outline-forest" onclick="openTelehealthModal()">
+                  📞 Switch to Telehealth
+                </button>
+              </div>
+            </div>
+
+            <!-- 3-Column Patient Grid (Ref 1) -->
+            <div class="patient-layout-grid-ref1">
+              
+              <!-- LEFT COLUMN: Vitals Deck & Consulting Doctors (Ref 1) -->
+              <div class="vitals-deck-ref1">
+                
+                <!-- Vital 1: Blood Pressure with 24-Dot Matrix (Ref 1) -->
+                <div class="vital-tile-ref1 mirror-card">
+                  <div class="vital-header-row">
+                    <span class="vital-label-ref1">Blood Pressure</span>
+                    <span class="vital-badge-chip badge-mint">Normal Pressure</span>
+                  </div>
+                  <div class="vital-big-number">116 / 70 <span class="vital-unit-txt">mmhg</span></div>
+                  <!-- 24-Dot Matrix (4x6) -->
+                  <div class="dot-matrix-pressure-grid">
+                    <div class="matrix-node active-cyan"></div><div class="matrix-node active-cyan"></div><div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node"></div><div class="matrix-node"></div>
+                    <div class="matrix-node active-cyan"></div><div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node"></div><div class="matrix-node"></div>
+                    <div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node"></div><div class="matrix-node"></div>
+                    <div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node active-mint"></div><div class="matrix-node"></div><div class="matrix-node"></div><div class="matrix-node"></div>
+                  </div>
+                </div>
+
+                <!-- Vital 2: Heart Rate with Dynamic ECG Wave (Ref 1) -->
+                <div class="vital-tile-ref1 mirror-card">
+                  <div class="vital-header-row">
+                    <span class="vital-label-ref1">Cardiac Rhythm</span>
+                    <span class="vital-badge-chip badge-red">Attention</span>
+                  </div>
+                  <div class="vital-big-number" style="color: #F87171;">175 <span class="vital-unit-txt">bpm</span></div>
+                  <!-- ECG Rhythm Wave -->
+                  <svg width="100%" height="28" viewBox="0 0 160 28" style="margin-top: 6px;">
+                    <path d="M 0 14 L 30 14 L 38 4 L 48 24 L 56 10 L 64 16 L 72 14 L 100 14 L 108 4 L 118 24 L 126 10 L 134 16 L 142 14 L 160 14" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+
+                <!-- Vital 3: Equalizer Telemetry Bars (Ref 1) -->
+                <div class="vital-tile-ref1 mirror-card">
+                  <div class="vital-header-row">
+                    <span class="vital-label-ref1">Daily Volume</span>
+                    <span class="vital-badge-chip badge-mint">Overall average</span>
+                  </div>
+                  <div class="vital-big-number" style="color: var(--mint-300);">2.3 <span class="vital-unit-txt">%</span></div>
+                  <!-- Equalizer Bars -->
+                  <div class="telemetry-equalizer-bars">
+                    <div class="eq-bar active" style="height: 45%;"></div>
+                    <div class="eq-bar active" style="height: 70%;"></div>
+                    <div class="eq-bar active" style="height: 90%;"></div>
+                    <div class="eq-bar active" style="height: 60%;"></div>
+                    <div class="eq-bar active" style="height: 80%;"></div>
+                    <div class="eq-bar active" style="height: 40%;"></div>
+                    <div class="eq-bar active" style="height: 65%;"></div>
+                    <div class="eq-bar active" style="height: 85%;"></div>
+                    <div class="eq-bar active" style="height: 50%;"></div>
+                    <div class="eq-bar active" style="height: 75%;"></div>
+                  </div>
+                </div>
+
+                <!-- Vital 4: Glucose Dual Sine Wave (Ref 1) -->
+                <div class="vital-tile-ref1 mirror-card">
+                  <div class="vital-header-row">
+                    <span class="vital-label-ref1">Blood Glucose</span>
+                    <span class="vital-badge-chip badge-mint">Normal Level</span>
+                  </div>
+                  <div class="vital-big-number">230 / 70 <span class="vital-unit-txt">mg/dL</span></div>
+                  <!-- Dual Sine Wave SVG -->
+                  <svg width="100%" height="24" viewBox="0 0 160 24" style="margin-top: 6px;">
+                    <path d="M 0 12 Q 20 0 40 12 T 80 12 T 120 12 T 160 12" fill="none" stroke="#06B6D4" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M 0 12 Q 20 24 40 12 T 80 12 T 120 12 T 160 12" fill="none" stroke="#34D399" stroke-width="1.8" stroke-dasharray="3 3"/>
+                  </svg>
+                </div>
+
+                <!-- Consulting Doctors Deck (Ref 1) -->
+                <div class="consulting-doctors-deck mirror-card">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                    <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-bright);">Consulting Doctors</span>
+                    <span style="font-size: 0.72rem; color: var(--mint-300); cursor: pointer;" onclick="navigateToView('cinema-booking')">View All →</span>
+                  </div>
+                  
+                  <div class="consulting-doc-item">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <span style="font-size: 1.4rem;">👨‍⚕️</span>
+                      <div>
+                        <div style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Dr. Ali Jafar</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Chief Orthopedic Surgeon</div>
+                      </div>
+                    </div>
+                    <button class="pill-ctrl-btn" onclick="navigateToView('cinema-booking')">Book</button>
+                  </div>
+
+                  <div class="consulting-doc-item">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <span style="font-size: 1.4rem;">👩‍⚕️</span>
+                      <div>
+                        <div style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Dr. Priya Nair</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Chief Cardiac Surgeon</div>
+                      </div>
+                    </div>
+                    <button class="pill-ctrl-btn" onclick="navigateToView('cinema-booking')">Book</button>
+                  </div>
+
+                  <div class="consulting-doc-item">
+                    <div style="display: flex; align-items: center; gap: 0.65rem;">
+                      <span style="font-size: 1.4rem;">👩‍⚕️</span>
+                      <div>
+                        <div style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Dr. Sarah Jenkins</div>
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">Neurology Consultant</div>
+                      </div>
+                    </div>
+                    <button class="pill-ctrl-btn" onclick="navigateToView('cinema-booking')">Book</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- CENTER COLUMN: 3D Hologram Anatomy Centerpiece (Ref 1) -->
+              <div class="anatomy-stage-box-ref1 mirror-card">
+                
+                <div class="anatomy-header-ref1">
+                  <div class="anatomy-title-block">
+                    <h3>Overall Body Condition</h3>
+                    <p>Real-time anatomical telemetry visualization</p>
+                  </div>
+                  <div class="disclaimer-badge-ref1">
+                    <span>ℹ️</span>
+                    <span>Informational visualization only — not a diagnosis</span>
+                  </div>
+                </div>
+
+                <!-- 3D Hologram Stage & Pedestal -->
+                <div class="anatomy-viewport-ref1">
+                  <!-- Glowing Pedestal Base -->
+                  <div class="pedestal-ring-glow"></div>
+                  <div class="pedestal-ring-outer"></div>
+                  <div class="pedestal-ring-inner"></div>
+
+                  <!-- Angle Controls (< || >) from Ref 1 -->
+                  <div class="pedestal-angle-controls">
+                    <button class="angle-btn" id="btn-angle-prev" title="Rotate Left">&lt;</button>
+                    <span class="angle-view-label" id="current-angle-label">Anterior (Front)</span>
+                    <button class="angle-btn" id="btn-angle-pause" title="Pause / Reset">||</button>
+                    <button class="angle-btn" id="btn-angle-next" title="Rotate Right">&gt;</button>
+                  </div>
+
+                  <!-- 3D Holographic Anatomical Human Vector Model -->
+                  <svg id="anatomy-svg-canvas" width="280" height="420" viewBox="0 0 280 420" style="z-index: 15; filter: drop-shadow(0 0 15px rgba(52, 211, 153, 0.45));">
+                    <!-- Head & Skull -->
+                    <circle cx="140" cy="55" r="26" fill="url(#holoGradient)" stroke="#34D399" stroke-width="1.8"/>
+                    <ellipse cx="140" cy="55" rx="14" ry="18" fill="rgba(6, 182, 212, 0.2)" stroke="#06B6D4" stroke-width="1"/>
+                    
+                    <!-- Neck -->
+                    <rect x="133" y="80" width="14" height="16" rx="4" fill="rgba(52, 211, 153, 0.25)" stroke="#34D399" stroke-width="1.2"/>
+                    
+                    <!-- Torso & Ribcage -->
+                    <path d="M 105 98 L 175 98 L 165 210 L 115 210 Z" fill="url(#holoGradient)" stroke="#34D399" stroke-width="1.8"/>
+                    <!-- Ribcage Lines -->
+                    <path d="M 120 120 Q 140 128 160 120" stroke="#06B6D4" stroke-width="1.5" fill="none"/>
+                    <path d="M 118 135 Q 140 144 162 135" stroke="#06B6D4" stroke-width="1.5" fill="none"/>
+                    <path d="M 120 150 Q 140 160 160 150" stroke="#06B6D4" stroke-width="1.5" fill="none"/>
+                    <path d="M 124 165 Q 140 174 156 165" stroke="#06B6D4" stroke-width="1.5" fill="none"/>
+                    
+                    <!-- Cardiac Glow in Chest -->
+                    <circle cx="148" cy="138" r="12" fill="rgba(239, 68, 68, 0.4)" stroke="#EF4444" stroke-width="1.8">
+                      <animate attributeName="r" values="10;14;10" dur="0.8s" repeatCount="indefinite"/>
+                      <animate attributeName="opacity" values="0.6;1;0.6" dur="0.8s" repeatCount="indefinite"/>
+                    </circle>
+
+                    <!-- Arms -->
+                    <path d="M 104 100 L 78 180 L 68 250" fill="none" stroke="#34D399" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M 176 100 L 202 180 L 212 250" fill="none" stroke="#34D399" stroke-width="6" stroke-linecap="round"/>
+                    
+                    <!-- Right Arm Pain Spot -->
+                    <circle cx="202" cy="180" r="8" fill="rgba(245, 158, 11, 0.5)" stroke="#F59E0B" stroke-width="2"/>
+
+                    <!-- Pelvis -->
+                    <path d="M 115 210 L 165 210 L 155 245 L 125 245 Z" fill="rgba(52, 211, 153, 0.2)" stroke="#34D399" stroke-width="1.5"/>
+
+                    <!-- Legs -->
+                    <path d="M 126 245 L 122 330 L 118 395" fill="none" stroke="#34D399" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M 154 245 L 158 330 L 162 395" fill="none" stroke="#34D399" stroke-width="8" stroke-linecap="round"/>
+
+                    <!-- Laser Gradients -->
+                    <defs>
+                      <linearGradient id="holoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="rgba(6, 182, 212, 0.35)"/>
+                        <stop offset="50%" stop-color="rgba(52, 211, 153, 0.25)"/>
+                        <stop offset="100%" stop-color="rgba(16, 185, 129, 0.35)"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+
+                  <!-- Callout Hotspot Pins (Ref 1) -->
+                  <!-- Pin 1: Right Arm / Shoulder Injured & Pain -->
+                  <div class="callout-pin-ref1 pin-injured" onclick="openOrganModal('shoulder')" title="Inspect Orthopedic Telemetry">
+                    <span>⚠️</span>
+                    <span>Injured & Pain</span>
+                  </div>
+
+                  <!-- Pin 2: Chest Core Temperature 40°C -->
+                  <div class="callout-pin-ref1 pin-temp" onclick="openOrganModal('core')" title="Inspect Core Temp">
+                    <span>🌡️</span>
+                    <span>Body temperature 40°C</span>
+                  </div>
+
+                  <!-- Pin 3: Cardiac 175 BPM -->
+                  <div class="callout-pin-ref1 pin-cardiac" onclick="openOrganModal('heart')" title="Inspect Coronary Telemetry">
+                    <span class="pulse-mint" style="background:#EF4444; box-shadow:0 0 8px #EF4444;"></span>
+                    <span>Cardiac 175 BPM</span>
+                  </div>
+                </div>
+
+                <!-- 3 Floating Organ Inspection Cards (Ref 1) -->
+                <div class="floating-organs-deck-ref1">
+                  <!-- Organ 1: Lungs -->
+                  <div class="organ-card-ref1" onclick="openOrganModal('lungs')">
+                    <div class="organ-icon-circle">🫁</div>
+                    <div>
+                      <div class="organ-name-txt">Lungs</div>
+                      <div class="organ-stat-txt" style="color: var(--mint-300);">89%</div>
+                    </div>
+                  </div>
+
+                  <!-- Organ 2: Brain -->
+                  <div class="organ-card-ref1" onclick="openOrganModal('brain')">
+                    <div class="organ-icon-circle">🧠</div>
+                    <div>
+                      <div class="organ-name-txt">Brain</div>
+                      <div class="organ-stat-txt" style="color: #60A5FA;">Good</div>
+                    </div>
+                  </div>
+
+                  <!-- Organ 3: Heart -->
+                  <div class="organ-card-ref1" onclick="openOrganModal('heart')">
+                    <div class="organ-icon-circle">🫀</div>
+                    <div>
+                      <div class="organ-name-txt">Heart</div>
+                      <div class="organ-stat-txt" style="color: #F87171;">Attention</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- RIGHT COLUMN: Signature Blue Gradient Emergency Card & Timeline (Ref 1) -->
+              <div class="patient-col-right-ref1">
+                
+                <!-- Signature Blue Gradient Emergency Card (Ref 1) -->
+                <div class="emergency-card-ref1">
+                  <div>
+                    <span class="emer-tag-ref1">Priority Trauma Escalation</span>
+                    <h3 class="emer-title-ref1">Emergency Services</h3>
+                    <p class="emer-desc-ref1">
+                      Need urgent medical assistance? Immediate 108 Dispatch & hospital emergency resuscitation pre-alert.
+                    </p>
+                  </div>
+                  <button class="btn-get-help-ref1" onclick="openAmbulanceModal()">
+                    <span>Get Help Now</span>
+                    <span>➔</span>
+                  </button>
+                </div>
+
+                <!-- Upcoming Consultations Card (Ref 1) -->
+                <div class="consultations-card-ref1 mirror-card">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-bright);">Upcoming Consultations</span>
+                    <span style="font-size: 0.72rem; color: var(--mint-300); cursor: pointer;" onclick="navigateToView('cinema-booking')">Schedule →</span>
+                  </div>
+
+                  <div class="consult-item-row">
+                    <span style="font-size: 1.5rem;">🩺</span>
+                    <div style="flex: 1;">
+                      <div style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Dr. Priya Nair</div>
+                      <div style="font-size: 0.72rem; color: var(--text-muted);">Today, 11:00 AM • Room 204 (OPD)</div>
+                    </div>
+                    <span style="font-size: 0.7rem; background: rgba(52, 211, 153, 0.2); color: var(--mint-300); padding: 2px 7px; border-radius: 99px; font-weight: 800;">Confirmed</span>
+                  </div>
+
+                  <div class="consult-item-row">
+                    <span style="font-size: 1.5rem;">🦴</span>
+                    <div style="flex: 1;">
+                      <div style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Dr. Sandeep Goel</div>
+                      <div style="font-size: 0.72rem; color: var(--text-muted);">Thursday, 23 Oct • Orthopedics</div>
+                    </div>
+                    <span style="font-size: 0.7rem; background: rgba(245, 158, 11, 0.2); color: #FCD34D; padding: 2px 7px; border-radius: 99px; font-weight: 800;">Pending</span>
+                  </div>
+                </div>
+
+                <!-- Quick Navigation Tools -->
+                <div class="mirror-card" style="padding: 1.15rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                  <button class="btn-outline-forest" style="font-size: 0.75rem; padding: 0.45rem;" onclick="navigateToView('pharmacy')">
+                    💊 Pharmacy Orders
+                  </button>
+                  <button class="btn-outline-forest" style="font-size: 0.75rem; padding: 0.45rem;" onclick="navigateToView('symptom-assistant')">
+                    🚨 Symptom Check
+                  </button>
+                  <button class="btn-outline-forest" style="font-size: 0.75rem; padding: 0.45rem;" onclick="navigateToView('care-timeline')">
+                    📅 Health Records
+                  </button>
+                  <button class="btn-outline-forest" style="font-size: 0.75rem; padding: 0.45rem;" onclick="navigateToView('safety-reviews')">
+                    ⚠️ Report Hazard
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 7: "intelly" DOCTOR & CLINICAL STAFF WORKSTATION (Ref 3)
+               ==================================================================== -->
+          <section id="view-staff-dash" class="view-section hidden">
+            
+            <div class="intelly-workstation-header">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                  <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                    Clinical Staff Workstation
+                  </h2>
+                  <p style="font-size: 0.9rem; color: var(--text-muted);">
+                    Manage assigned shift rosters, patient footfall queue, break allocations, and preliminary AI guidance reviews.
+                  </p>
+                </div>
+                <div style="display: flex; gap: 0.65rem; align-items: center;">
+                  <span style="background: rgba(16, 185, 129, 0.2); color: var(--mint-300); border: 1px solid var(--mint-border); padding: 5px 12px; border-radius: var(--radius-full); font-weight: 800; font-size: 0.82rem;">
+                    ● Shift Active: Room 204 • Dr. Priya Nair
+                  </span>
+                  <button class="btn-primary-forest" onclick="callNextPatient('Ramesh Kumar', 'A-04')">
+                    📢 Call Next Patient
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reference 3: 4 Pastel Metric KPI Cards -->
+            <div class="intelly-pastel-grid">
+              <!-- Card 1: Yellow - Patients -->
+              <div class="intelly-card intelly-card-yellow">
+                <div class="intelly-card-top">
+                  <span>Patients Today</span>
+                  <div class="intelly-icon-chip">👥</div>
+                </div>
+                <div>
+                  <div class="intelly-num">1,429</div>
+                  <div class="intelly-sublabel">↗ +12% vs last week average</div>
+                </div>
+              </div>
+
+              <!-- Card 2: Pink - Visits Summary -->
+              <div class="intelly-card intelly-card-pink">
+                <div class="intelly-card-top">
+                  <span>Visits Summary</span>
+                  <div class="intelly-icon-chip">📋</div>
+                </div>
+                <div>
+                  <div class="intelly-num">842</div>
+                  <div class="intelly-sublabel">620 completed • 222 pending</div>
+                </div>
+              </div>
+
+              <!-- Card 3: Green - By Condition -->
+              <div class="intelly-card intelly-card-green">
+                <div class="intelly-card-top">
+                  <span>By Condition</span>
+                  <div class="intelly-icon-chip">🫀</div>
+                </div>
+                <div>
+                  <div class="intelly-num">58%</div>
+                  <div class="intelly-sublabel">Chronic: 58% • Acute: 27% • Follow-up: 15%</div>
+                </div>
+              </div>
+
+              <!-- Card 4: Blue - Sessions -->
+              <div class="intelly-card intelly-card-blue">
+                <div class="intelly-card-top">
+                  <span>Sessions Completed</span>
+                  <div class="intelly-icon-chip">💻</div>
+                </div>
+                <div>
+                  <div class="intelly-num">358</div>
+                  <div class="intelly-sublabel">148 Telehealth • 210 In-Person</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clinical Workstation 3-Column Grid (Ref 3) -->
+            <div class="intelly-clinical-grid">
+              
+              <!-- Left: Patient Queue Table -->
+              <div class="intelly-queue-table-card mirror-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-bright);">
+                    Patient Queue • Room 204
+                  </h3>
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">Real-time arrival sync</span>
+                </div>
+
+                <table class="queue-table">
+                  <thead>
+                    <tr>
+                      <th>Patient</th>
+                      <th>Condition</th>
+                      <th>Wait</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="intelly-queue-rows">
+                    <tr class="active-row" onclick="selectStaffPatient('Ramesh Kumar', '54', 'B+', '118/78', '74 bpm', 'Stage-1 Hypertension')">
+                      <td>
+                        <strong>Ramesh Kumar</strong><br>
+                        <span style="font-size:0.72rem; color:var(--text-muted);">ABHA: 91-4820-1928</span>
+                      </td>
+                      <td>Chest tightness (post-walk)</td>
+                      <td><span style="color:var(--mint-300);">In Room</span></td>
+                      <td><button class="pill-ctrl-btn" style="padding:2px 8px; font-size:0.7rem;">Review</button></td>
+                    </tr>
+                    <tr onclick="selectStaffPatient('Sunita Verma', '48', 'O+', '135/88', '88 bpm', 'Palpitations & Fatigue')">
+                      <td>
+                        <strong>Sunita Verma</strong><br>
+                        <span style="font-size:0.72rem; color:var(--text-muted);">ABHA: 91-7712-4091</span>
+                      </td>
+                      <td>Follow-up ECG Review</td>
+                      <td><span>5 mins</span></td>
+                      <td><button class="pill-ctrl-btn" style="padding:2px 8px; font-size:0.7rem;">Review</button></td>
+                    </tr>
+                    <tr onclick="selectStaffPatient('Anand Patel', '62', 'A+', '142/92', '95 bpm', 'Exertional Dyspnea')">
+                      <td>
+                        <strong>Anand Patel</strong><br>
+                        <span style="font-size:0.72rem; color:var(--text-muted);">ABHA: 91-3310-8452</span>
+                      </td>
+                      <td>Tachycardia Alert (175 bpm)</td>
+                      <td><span style="color:#F87171;">Urgent</span></td>
+                      <td><button class="pill-ctrl-btn" style="padding:2px 8px; font-size:0.7rem;">Review</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Center: Visit Details Card with Symptom Tags (Ref 3) -->
+              <div class="intelly-visit-details-card mirror-card" id="staff-visit-details-card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <div>
+                    <span style="font-size: 0.72rem; color: var(--mint-300); font-weight: 800; text-transform: uppercase;">
+                      Active Consultation Details
+                    </span>
+                    <h3 style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF;" id="visit-patient-name">
+                      Ramesh Kumar
+                    </h3>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);" id="visit-patient-meta">
+                      Age 54 • Blood: B+ • Token: A-04
+                    </div>
+                  </div>
+                  <span style="font-size: 0.75rem; background: rgba(52, 211, 153, 0.2); color: var(--mint-300); padding: 3px 8px; border-radius: 99px; font-weight: 800;">
+                    ABHA Verified
+                  </span>
+                </div>
+
+                <!-- Quick Vitals -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center;">
+                  <div style="background: rgba(255,255,255,0.04); padding: 0.5rem; border-radius: 8px;">
+                    <div style="font-size: 0.68rem; color: var(--text-muted);">Blood Pressure</div>
+                    <strong style="color: #FFFFFF; font-size: 0.9rem;" id="visit-bp-val">118 / 78</strong>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.04); padding: 0.5rem; border-radius: 8px;">
+                    <div style="font-size: 0.68rem; color: var(--text-muted);">Heart Rate</div>
+                    <strong style="color: #F87171; font-size: 0.9rem;" id="visit-hr-val">74 bpm</strong>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.04); padding: 0.5rem; border-radius: 8px;">
+                    <div style="font-size: 0.68rem; color: var(--text-muted);">SpO2</div>
+                    <strong style="color: var(--mint-300); font-size: 0.9rem;">98%</strong>
+                  </div>
+                </div>
+
+                <!-- Symptom Tags (Ref 3) -->
+                <div>
+                  <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Reported Symptom Tags:</span>
+                  <div class="intelly-symptom-tag-cloud">
+                    <span class="symptom-chip-tag">Chest Tightness</span>
+                    <span class="symptom-chip-tag">Shortness of Breath</span>
+                    <span class="symptom-chip-tag">Exertional Fatigue</span>
+                    <span class="symptom-chip-tag">Mild Diaphoresis</span>
+                  </div>
+                </div>
+
+                <!-- Preliminary AI Triage Note -->
+                <div style="background: rgba(16, 34, 25, 0.9); border: 1px solid var(--mint-border); border-radius: 10px; padding: 0.85rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                    <span style="font-size: 0.72rem; font-weight: 800; color: var(--mint-300);">🤖 Preliminary AI Triage Guidance</span>
+                    <span style="font-size: 0.68rem; color: #FCD34D;">Doctor Review Required</span>
+                  </div>
+                  <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.45;">
+                    Triage assessment suggests borderline post-exertional cardiac workload. Recommended: 12-lead resting ECG and sublingual nitrates if discomfort recurs.
+                  </p>
+                </div>
+
+                <!-- Action Controls -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button class="btn-primary-forest" style="flex: 1; font-size: 0.8rem; padding: 0.55rem;" onclick="showToast('📋 E-Prescription issued and synced with Hospital Pharmacy')">
+                    Prescribe Rx
+                  </button>
+                  <button class="btn-outline-forest" style="font-size: 0.8rem; padding: 0.55rem;" onclick="showToast('📝 Clinical note saved to ABHA electronic health record')">
+                    Add Note
+                  </button>
+                  <button class="btn-outline-forest" style="font-size: 0.8rem; padding: 0.55rem;" onclick="showToast('🚨 Transferred to Cath Lab / Resuscitation Bay')">
+                    Transfer
+                  </button>
+                </div>
+              </div>
+
+              <!-- Right: Schedule Calendar & Roster (Ref 3) -->
+              <div class="intelly-calendar-card mirror-card">
+                <div class="cal-mini-header">
+                  <span>📅 Schedule: Today</span>
+                  <span style="font-size: 0.72rem; color: var(--mint-300);">20 Oct 2026</span>
+                </div>
+
+                <div class="cal-slot-timeline">
+                  <div class="cal-slot-item busy">
+                    <div>
+                      <strong>08:30 - 09:15</strong><br>
+                      <span>Morning Rounds • CCU Ward</span>
+                    </div>
+                  </div>
+                  <div class="cal-slot-item busy">
+                    <div>
+                      <strong>09:30 - 11:00</strong><br>
+                      <span>OPD Chamber 204 • Ramesh Kumar</span>
+                    </div>
+                  </div>
+                  <div class="cal-slot-item">
+                    <div>
+                      <strong>11:15 - 12:00</strong><br>
+                      <span>Sunita Verma (Follow-up)</span>
+                    </div>
+                  </div>
+                  <div class="cal-slot-item">
+                    <div>
+                      <strong>12:15 - 13:00</strong><br>
+                      <span>Anand Patel (Cardiac Triage)</span>
+                    </div>
+                  </div>
+                  <div class="cal-slot-item" style="border-left-color: #60A5FA;">
+                    <div>
+                      <strong>13:00 - 13:45</strong><br>
+                      <span>Break • Staggered Capacity Buffer</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="btn-outline-forest" style="width: 100%; font-size: 0.78rem; justify-content: center;" onclick="openTelehealthModal()">
+                  📞 Launch Telehealth Video Console
+                </button>
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW: AI HEALTHCARE ECOSYSTEM ARCHITECTURE (Ref 2)
+               ==================================================================== -->
+          <section id="view-architecture" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  AI Healthcare Ecosystem Architecture
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  End-to-end technical topology matching Reference 2: Frontend, Backend API Gateway, AI Diagnostic Services, and Encrypted Data Layer.
+                </p>
+              </div>
+              <button class="btn-outline-forest" onclick="navigateToView('patient-dash')">← Back to Patient Dashboard</button>
+            </div>
+
+            <div class="arch-diagram-wrapper">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.65rem;">
+                  <span class="badge-mint">● LIVE SYSTEM HEALTH: 99.98% UPTIME</span>
+                  <span style="font-size: 0.78rem; color: var(--text-muted);">Average API Latency: 14ms • AES-256 Encrypted</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="pill-ctrl-btn" onclick="showToast('⚡ Live API Ping: Gemini LLM 42ms, Symptom Classifier 12ms, SQLite 2ms')">Ping All Services</button>
+                </div>
+              </div>
+
+              <!-- 3-Column System Topology (Ref 2) -->
+              <div class="arch-system-grid">
+                
+                <!-- Column 1: Frontend Layer -->
+                <div class="arch-layer-box">
+                  <div class="arch-layer-header">
+                    <span class="arch-layer-title">💻 Frontend Layer</span>
+                    <span class="arch-badge-live">Active</span>
+                  </div>
+
+                  <div class="arch-component-card" onclick="navigateToView('patient-dash')">
+                    <div class="arch-comp-header">
+                      <span>Patient Dashboard</span>
+                      <span>👤</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      3D holographic anatomy visualization, live telemetry, and appointment booking.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card" onclick="navigateToView('symptom-assistant')">
+                    <div class="arch-comp-header">
+                      <span>AI Diagnostic Interface</span>
+                      <span>🚨</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Guided question-and-answer symptom triage with red-flag urgent escalation.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card" onclick="navigateToView('care-timeline')">
+                    <div class="arch-comp-header">
+                      <span>Health Tracker</span>
+                      <span>📈</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Blood pressure matrix, cardiac rhythm waveform, glucose, and oxygen saturation logs.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card" onclick="navigateToView('hospital-search')">
+                    <div class="arch-comp-header">
+                      <span>Nearby Hospitals</span>
+                      <span>🏥</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Real-time wait times, department bed vacancy, and Leaflet.js interactive maps.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Column 2: Backend Services Layer -->
+                <div class="arch-layer-box">
+                  <div class="arch-layer-header">
+                    <span class="arch-layer-title">⚙️ Backend Services</span>
+                    <span class="arch-badge-live">Node.js / Express</span>
+                  </div>
+
+                  <div class="arch-component-card">
+                    <div class="arch-comp-header">
+                      <span>REST & WebSocket Gateway</span>
+                      <span>🌐</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Bi-directional real-time telemetry streaming and emergency socket dispatch.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card">
+                    <div class="arch-comp-header">
+                      <span>Patient Auth & RBAC</span>
+                      <span>🔐</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      ABHA ID verification, role-based access for patients, doctors, and hospital admins.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card" onclick="navigateToView('cinema-booking')">
+                    <div class="arch-comp-header">
+                      <span>Vacancy & Queue Engine</span>
+                      <span>🎟️</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Consultation chamber appointment matrix and dynamic OPD footfall distribution.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card">
+                    <div class="arch-comp-header">
+                      <span>Pharmacy & Pre-Order Service</span>
+                      <span>💊</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Pharmacist prescription verification and out-of-stock reserve pipelines.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Column 3: AI Models & External Services (Ref 2) -->
+                <div class="arch-layer-box">
+                  <div class="arch-layer-header">
+                    <span class="arch-layer-title">🤖 AI & Data Stores</span>
+                    <span class="arch-badge-live">Secure Enclave</span>
+                  </div>
+
+                  <div class="arch-component-card" style="border-color: var(--mint-400);">
+                    <div class="arch-comp-header">
+                      <span style="color: var(--mint-300);">Gemini API LLM</span>
+                      <span>✨</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Context-aware clinical triage guidance, patient symptom interpretation, and preliminary recommendations.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card" style="border-color: #60A5FA;">
+                    <div class="arch-comp-header">
+                      <span style="color: #60A5FA;">Symptom Prediction Model</span>
+                      <span>🧠</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Pre-trained neural classifier for triage urgency classification (Level 1 Resuscitation to Level 5 Non-Urgent).
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card">
+                    <div class="arch-comp-header">
+                      <span>Database: SQLite / Encrypted Store</span>
+                      <span>🗄️</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      HIPAA / ABDM compliant encrypted patient health records and doctor consultation rosters.
+                    </div>
+                  </div>
+
+                  <div class="arch-component-card">
+                    <div class="arch-comp-header">
+                      <span>Leaflet.js Map Services</span>
+                      <span>🗺️</span>
+                    </div>
+                    <div class="arch-comp-desc">
+                      Geospatial routing for 108 ambulance dispatch and nearest trauma facility calculation.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 5: HOSPITAL DEPARTMENT APPOINTMENT VACANCY MATRIX
+               ==================================================================== -->
+          <section id="view-cinema-booking" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Hospital Department Appointment Vacancy Matrix
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  Real-time consultation chamber vacancies. Select your exact physician consultation slot with instant capacity clarity.
+                </p>
+              </div>
+              <button class="btn-outline-forest" onclick="navigateToView('patient-dash')">← Back to Patient Dashboard</button>
+            </div>
+
+            <div class="vacancy-booking-container mirror-card">
+              <!-- Controls: Select Doctor & Department -->
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <label for="booking-doc-select" style="font-size: 0.85rem; font-weight: 800; color: var(--text-bright);">Consulting Specialist:</label>
+                  <select id="booking-doc-select" style="background: rgba(12, 28, 20, 0.9); border: 1.5px solid var(--mint-border); padding: 0.45rem 1rem; border-radius: var(--radius-full); font-weight: 800; color: var(--mint-200);">
+                    <option value="Dr. Priya Nair">Dr. Priya Nair (Cardiology • AIIMS)</option>
+                    <option value="Dr. Sandeep Goel">Dr. Sandeep Goel (Orthopedics Specialist)</option>
+                    <option value="Dr. Anita Joshi">Dr. Anita Joshi (Pediatrics Specialist)</option>
+                    <option value="Dr. Rajesh Sharma">Dr. Rajesh Sharma (Neurology Specialist)</option>
+                  </select>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--text-muted);">
+                  <span>📅 Roster Schedule:</span>
+                  <strong style="color: var(--mint-300);">Today, 20 Oct 2026</strong>
+                </div>
+              </div>
+
+              <!-- Physician Consultation Terminal Bar -->
+              <div>
+                <div class="physician-terminal-bar"></div>
+                <div id="cinema-screen-doctor-label" class="terminal-desk-label">
+                  PHYSICIAN CONSULTATION TERMINAL: DR. PRIYA NAIR • CHAMBER 204
+                </div>
+              </div>
+
+              <!-- Interactive Appointment Vacancy Matrix -->
+              <div id="cinema-seat-matrix" class="vacancy-matrix-wrapper" role="region" aria-label="Appointment Vacancy Slot Grid"></div>
+
+              <!-- Accessible Vacancy Legend Bar -->
+              <div class="vacancy-legend-bar">
+                <div class="legend-item">
+                  <span class="legend-swatch vacant"></span>
+                  <span>Available Vacancy</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-swatch occupied"></span>
+                  <span>Filled Slot / In Session</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-swatch selected"></span>
+                  <span>Your Selected Vacancy</span>
+                </div>
+              </div>
+
+              <!-- Vacancy Reservation Confirmation Deck -->
+              <div class="vacancy-checkout-deck">
+                <div>
+                  <div id="selected-seat-summary-txt" style="font-size: 1.15rem; font-weight: 800; color: var(--text-bright);">
+                    14 of 36 Consultation Vacancies Open Today • Select an available slot above
+                  </div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">
+                    Coverage: ₹0 under Ayushman PMJAY Cashless Network (ABHA Verified)
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem;">
+                  <button class="btn-primary-forest" id="btn-confirm-seat-booking" style="padding: 0.8rem 2.2rem; font-size: 0.95rem;">
+                    🎟️ Confirm Appointment Vacancy
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 3: SYMPTOM DISCUSSION ASSISTANT WITH URGENT ESCALATION STATE
+               ==================================================================== -->
+          <section id="view-symptom-assistant" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Symptom Discussion Assistant
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  Clear follow-up questions, cautious next steps, and instant red-flag escalation. Supports clinicians—never replaces them.
+                </p>
+              </div>
+              <button class="btn-outline-forest" onclick="navigateToView('patient-dash')">← Back to Patient Dashboard</button>
+            </div>
+
+            <!-- Urgent Red Flag Escalation Banner -->
+            <div id="urgent-escalation-banner" class="urgent-escalation-banner">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <span style="font-size: 2rem;">🚨</span>
+                <div>
+                  <strong style="font-size: 1.1rem; color: #FFFFFF; display: block;">URGENT RED-FLAG SYMPTOM ESCALATION DETECTED</strong>
+                  <span style="font-size: 0.85rem; color: #FCA5A5;">
+                    Chest tightness, shortness of breath, or radiating arm pain require immediate emergency evaluation. Do not drive yourself.
+                  </span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.75rem; align-items: center; margin-top: 0.5rem;">
+                <button class="btn-primary-forest" style="background: #DC2626; border: 1px solid #EF4444;" onclick="openAmbulanceModal()">
+                  🚑 Dispatch 108 Ambulance Now
+                </button>
+                <button class="btn-outline-forest" style="color: #FFFFFF; border-color: rgba(255,255,255,0.4);" onclick="navigateToView('hospital-search')">
+                  🏥 View Nearest Trauma Centers
+                </button>
+              </div>
+            </div>
+
+            <div class="symptom-assistant-container">
+              <!-- Chat Console -->
+              <div class="chat-console-box mirror-card">
+                <div class="chat-console-header">
+                  <div style="display: flex; align-items: center; gap: 0.65rem;">
+                    <span style="font-size: 1.4rem;">🩺</span>
+                    <div>
+                      <strong style="color: #FFFFFF; font-size: 0.95rem;">Clinical Triage Assistant (Gemini LLM Supervised)</strong>
+                      <div style="font-size: 0.72rem; color: var(--mint-300);">● Online • Reviewed by Dr. Priya Nair</div>
+                    </div>
+                  </div>
+                  <button class="pill-ctrl-btn" onclick="openTelehealthModal()">📞 Request Doctor Call</button>
+                </div>
+
+                <div class="chat-console-messages" id="chat-messages-container">
+                  <div class="chat-bubble assistant">
+                    Hello! I am your NexusCare Clinical Triage Assistant. Please describe how you are feeling today. I will ask clear follow-up questions to help you determine the safest next step.
+                    <br><br>
+                    <em style="font-size: 0.78rem; color: var(--mint-200);">Note: I provide preliminary guidance only. A qualified healthcare professional reviews our triage summary before any final clinical decision.</em>
+                  </div>
+                </div>
+
+                <div class="chat-input-bar">
+                  <input type="text" id="chat-user-input" class="chat-input-field" placeholder="Describe symptoms (e.g. chest tightness, mild fever, knee strain)...">
+                  <button class="btn-primary-forest" id="btn-send-chat">Send</button>
+                </div>
+              </div>
+
+              <!-- Quick Symptom Starter Prompts -->
+              <div class="mirror-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <h3 style="font-size: 1rem; font-weight: 800; color: var(--text-bright);">Quick Starter Prompts</h3>
+                <button class="btn-outline-forest" style="text-align: left; font-size: 0.8rem;" onclick="triggerSymptomDemo('urgent')">
+                  🚨 "Severe chest tightness and radiating pain to left arm" (Urgent)
+                </button>
+                <button class="btn-outline-forest" style="text-align: left; font-size: 0.8rem;" onclick="triggerSymptomDemo('moderate')">
+                  🌡️ "Mild fever of 38.2°C and sore throat for 2 days" (OPD)
+                </button>
+                <button class="btn-outline-forest" style="text-align: left; font-size: 0.8rem;" onclick="triggerSymptomDemo('ortho')">
+                  🦴 "Right shoulder pain after carrying heavy groceries" (Home care)
+                </button>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 4: NEARBY HOSPITALS & URGENT CARE
+               ==================================================================== -->
+          <section id="view-hospital-search" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Nearby Hospitals & Urgent Care Centers
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  Live wait-time estimates, specialized department readiness, and transparent routing reasons.
+                </p>
+              </div>
+              <button class="btn-outline-forest" onclick="navigateToView('patient-dash')">← Back to Patient Dashboard</button>
+            </div>
+
+            <!-- Hospital List Grid -->
+            <div id="hospitals-list-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem;"></div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 6: HOSPITAL PHARMACY & PRE-ORDERS
+               ==================================================================== -->
+          <section id="view-pharmacy" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Hospital Pharmacy & Pre-Orders
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  Verified prescription refills, pharmacist clinical checks, and out-of-stock pre-orders with restock tracking.
+                </p>
+              </div>
+              <div style="display: flex; gap: 0.65rem;">
+                <button class="btn-outline-forest" onclick="showToast('📄 Uploaded prescription verified by R.Ph Ananya Sharma')">
+                  📄 Upload Prescription
+                </button>
+                <button class="btn-primary-forest" onclick="showToast('🛒 Order placed! Pickup ready at Hospital Counter B')">
+                  🛒 Cart (<span id="cart-counter">0</span>) • Checkout
+                </button>
+              </div>
+            </div>
+
+            <div id="pharmacy-products-grid" class="pharmacy-catalog-grid"></div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 8: HOSPITAL ADMINISTRATOR CAPACITY DASHBOARD
+               ==================================================================== -->
+          <section id="view-admin-capacity" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Hospital Administrator Capacity Dashboard
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  Real-time footfall monitoring, department bed occupancy, AI-assisted capacity suggestions, and safety reporting.
+                </p>
+              </div>
+              <button class="btn-primary-forest" onclick="openHospitalPartnerModal()">
+                + Register New Department
+              </button>
+            </div>
+
+            <!-- Admin Capacity Metrics -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+              <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                <div style="font-size: 1.8rem; font-weight: 800; color: #FFFFFF;">1,420</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Patient Footfall Today (OPD + ER)</div>
+              </div>
+              <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                <div style="font-size: 1.8rem; font-weight: 800; color: #F59E0B;">74%</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Overall Bed & Chamber Occupancy</div>
+              </div>
+              <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--mint-300);">38%</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Minor Cases Deflected via Home Guidance</div>
+              </div>
+              <div class="mirror-card" style="padding: 1.25rem; text-align: center;">
+                <div style="font-size: 1.8rem; font-weight: 800; color: #60A5FA;">14 mins</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Average OPD Chamber Wait Time</div>
+              </div>
+            </div>
+
+            <!-- AI-Assisted Capacity Suggestion Card (Human-in-the-loop requirement) -->
+            <div class="mirror-card" style="padding: 1.5rem; margin-bottom: 1.5rem; border-color: var(--mint-400);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span class="badge-mint">🤖 AI-Assisted Capacity Suggestion</span>
+                <span style="font-size: 0.75rem; color: #FCD34D; font-weight: 700;">Human Approval Required</span>
+              </div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.35rem;">
+                Cardiology Afternoon Footfall Surge Anticipated (+28%)
+              </h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 1rem;">
+                <strong>Underlying Trend Analysis:</strong> Outpatient referral spikes from nearby community centers correlate with post-monsoon weather shifts. Dr. Sandeep Goel has available clinical slots in Room 205.
+                <br>
+                <strong>Proposed Action:</strong> Open 4 overflow seats for Room 205 and stagger Dr. Sandeep's break to 16:30.
+              </p>
+              <div style="display: flex; gap: 0.75rem;">
+                <button class="btn-primary-forest" onclick="showToast('✓ Capacity modification approved by Administrator')">
+                  ✓ Approve Capacity Modification
+                </button>
+                <button class="btn-outline-forest" onclick="showToast('✕ Capacity suggestion declined')">
+                  ✕ Decline
+                </button>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 9: REVIEWS & FACILITY SAFETY REPORTING
+               ==================================================================== -->
+          <section id="view-safety-reviews" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Facility Safety Reporting & Reviews
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  Privately submit safety hazards (e.g. wet floors, broken handrails) and track resolution in real-time.
+                </p>
+              </div>
+              <button class="btn-outline-forest" onclick="navigateToView('patient-dash')">← Back to Patient Dashboard</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <!-- Left: Report Hazard Form -->
+              <div class="mirror-card" style="padding: 1.5rem;">
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin-bottom: 1rem;">
+                  Report a Safety Hazard (Private & Anonymous)
+                </h3>
+                <form id="safety-report-form" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                  <div>
+                    <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Hazard Category</label>
+                    <select id="hazard-category" style="width: 100%; background: rgba(10, 20, 15, 0.9); border: 1px solid var(--mint-border); padding: 0.6rem; border-radius: 8px; color: #FFFFFF; margin-top: 4px;">
+                      <option value="Wet Floor / Slippery Surface">Wet Floor / Slippery Surface (e.g. Corridor B)</option>
+                      <option value="Broken Handrail / Elevator">Broken Handrail / Elevator Out of Service</option>
+                      <option value="Sanitation / Hygiene">Sanitation / Overflowing Waste Bin</option>
+                      <option value="Wheelchair Ramp Obstruction">Wheelchair Ramp Obstruction</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Specific Location</label>
+                    <input type="text" id="hazard-location" placeholder="e.g. OPD Block B, 2nd floor near Room 204" style="width: 100%; background: rgba(10, 20, 15, 0.9); border: 1px solid var(--mint-border); padding: 0.6rem; border-radius: 8px; color: #FFFFFF; margin-top: 4px;">
+                  </div>
+                  <div>
+                    <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Hazard Details</label>
+                    <textarea id="hazard-details" rows="3" placeholder="Describe the hazard and any immediate risk..." style="width: 100%; background: rgba(10, 20, 15, 0.9); border: 1px solid var(--mint-border); padding: 0.6rem; border-radius: 8px; color: #FFFFFF; margin-top: 4px; font-family: inherit;"></textarea>
+                  </div>
+                  <button type="button" class="btn-primary-forest" onclick="submitSafetyReport()">
+                    ⚠️ Submit Safety Report
+                  </button>
+                </form>
+              </div>
+
+              <!-- Right: Active Hazard Tracker -->
+              <div class="mirror-card" style="padding: 1.5rem;">
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin-bottom: 1rem;">
+                  Live Hazard Resolution Tracker
+                </h3>
+                <div id="safety-tracker-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                  <div style="background: rgba(255,255,255,0.04); padding: 0.85rem; border-radius: 8px; border-left: 3px solid var(--mint-400);">
+                    <div style="display: flex; justify-content: space-between;">
+                      <strong>Wet Floor near Radiology</strong>
+                      <span class="badge-mint">Resolved</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
+                      Housekeeping dispatched • Warning cones placed • Floor dry.
+                    </div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.04); padding: 0.85rem; border-radius: 8px; border-left: 3px solid #F59E0B;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <strong>Elevator 3 Button Stuck</strong>
+                      <span style="font-size: 0.7rem; background: rgba(245, 158, 11, 0.2); color: #FCD34D; padding: 2px 7px; border-radius: 99px;">In Progress</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
+                      Maintenance technician on site. Expected fix: 20 mins.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 10: CARE TIMELINE & UNIFIED HEALTH RECORDS
+               ==================================================================== -->
+          <section id="view-care-timeline" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Unified Care Timeline & Records
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  Comprehensive history of consultations, prescriptions, lab reports, and doctor reviews.
+                </p>
+              </div>
+              <button class="btn-outline-forest" onclick="navigateToView('patient-dash')">← Back to Patient Dashboard</button>
+            </div>
+
+            <div id="care-timeline-mount" class="mirror-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;"></div>
+
+          </section>
+
+          <!-- ====================================================================
+               VIEW 11: ACCESSIBILITY, PRIVACY & SYSTEM SETTINGS
+               ==================================================================== -->
+          <section id="view-settings" class="view-section hidden">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-bright);">
+                  Accessibility & Privacy Settings
+                </h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                  High-contrast modes, font sizing for elderly patients, reduced motion, caregiver access, and consent controls.
+                </p>
+              </div>
+              <button class="btn-outline-forest" onclick="navigateToView('patient-dash')">← Back to Patient Dashboard</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <!-- Accessibility Card -->
+              <div class="mirror-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF;">Accessibility Preferences</h3>
+                
+                <div>
+                  <label style="font-size: 0.85rem; font-weight: 700;">Font Size Adjustment</label>
+                  <div style="display: flex; gap: 0.5rem; margin-top: 0.35rem;">
+                    <button class="pill-ctrl-btn" onclick="setFontSize('normal')">Default (16px)</button>
+                    <button class="pill-ctrl-btn" onclick="setFontSize('large')">Large (18px)</button>
+                    <button class="pill-ctrl-btn" onclick="setFontSize('xlarge')">Extra Large (20px)</button>
+                  </div>
+                </div>
+
+                <div>
+                  <label style="font-size: 0.85rem; font-weight: 700;">Interface Language</label>
+                  <div style="display: flex; gap: 0.5rem; margin-top: 0.35rem;">
+                    <button class="pill-ctrl-btn active" onclick="setLanguage('en')">English</button>
+                    <button class="pill-ctrl-btn" onclick="setLanguage('hi')">हिन्दी (Hindi)</button>
+                    <button class="pill-ctrl-btn" onclick="setLanguage('ta')">தமிழ் (Tamil)</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Privacy & Consent Card -->
+              <div class="mirror-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem;">
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF;">Caregiver Access & Consent</h3>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <strong style="color: #FFFFFF; font-size: 0.9rem;">Caregiver Proxy Access</strong>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Allow family member (Aarav Kumar) to book appointments</div>
+                  </div>
+                  <input type="checkbox" checked style="width: 20px; height: 20px;">
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <strong style="color: #FFFFFF; font-size: 0.9rem;">PMJAY / ABHA Data Sync</strong>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Encrypted sync with National Health Authority</div>
+                  </div>
+                  <input type="checkbox" checked style="width: 20px; height: 20px;">
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+        </main>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODALS: 108 AMBULANCE DISPATCH (With Siren & Live GPS Animation)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modal-ambulance">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('modal-ambulance')">✕</button>
+      <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem;">
+        <span style="font-size: 2.2rem;">🚑</span>
+        <div>
+          <h3 style="font-size: 1.35rem; font-weight: 800; color: #FFFFFF;">108 Advanced Cardiac Ambulance Dispatch</h3>
+          <span style="font-size: 0.75rem; color: #F87171; font-weight: 800;">Emergency Medical Response Active</span>
+        </div>
+      </div>
+
+      <div style="background: rgba(220, 38, 38, 0.15); border: 1.5px solid #EF4444; border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+          <strong style="color: #FFFFFF;">Dispatch Status: En Route</strong>
+          <span style="color: #FCA5A5; font-weight: 800;">ETA: 4 Minutes</span>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--text-muted);">
+          Ambulance Unit DL-01-AM-4022 dispatched with Paramedic Team. Resuscitation Bay pre-alerted at Metro Super-Specialty.
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <button class="btn-primary-forest" style="background: #DC2626; border-color: #EF4444; width: 100%; justify-content: center; font-size: 1rem;" onclick="callEmergencyPhone()">
+          📞 Call 108 Emergency Helpline Directly
+        </button>
+      </div>
+
+      <button class="btn-outline-forest" style="width: 100%; justify-content: center;" onclick="closeModal('modal-ambulance')">
+        Close Dispatch Monitor
+      </button>
+    </div>
+  </div>
+
+  <!-- Telehealth Modal -->
+  <div class="modal-backdrop" id="modal-telehealth">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('modal-telehealth')">✕</button>
+      <h3 style="font-size: 1.3rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">Instant Telehealth Video Consultation</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Connect securely with Dr. Priya Nair or the next available on-call physician.
+      </p>
+      <div style="height: 240px; background: #07120D; border: 1.5px dashed var(--mint-border); border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem;">
+        <span style="font-size: 3rem;">📹</span>
+        <span style="color: var(--mint-300); font-weight: 700; font-size: 0.9rem;">Camera & Microphone Ready</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Encrypted WebRTC Session #TH-9021</span>
+      </div>
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+        <button class="btn-primary-forest" style="flex: 1; justify-content: center;" onclick="showToast('Connecting to Dr. Priya Nair...'); closeModal('modal-telehealth');">
+          Start Video Session
+        </button>
+        <button class="btn-outline-forest" onclick="closeModal('modal-telehealth')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hospital Partner Modal -->
+  <div class="modal-backdrop" id="modal-hospital-partner">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('modal-hospital-partner')">✕</button>
+      <h3 style="font-size: 1.3rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">Hospital Partnership & Onboarding</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Join NexusCare Aura network to publish appointment vacancies, broadcast wait times, and automate capacity management.
+      </p>
+      <form style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <input type="text" placeholder="Hospital / Clinical Institute Name" style="background: rgba(10, 20, 15, 0.9); border: 1px solid var(--mint-border); padding: 0.65rem; border-radius: 8px; color: #FFFFFF;">
+        <input type="text" placeholder="NABH / State License Number" style="background: rgba(10, 20, 15, 0.9); border: 1px solid var(--mint-border); padding: 0.65rem; border-radius: 8px; color: #FFFFFF;">
+        <input type="email" placeholder="Official Contact Email" style="background: rgba(10, 20, 15, 0.9); border: 1px solid var(--mint-border); padding: 0.65rem; border-radius: 8px; color: #FFFFFF;">
+        <button type="button" class="btn-primary-forest" style="justify-content: center;" onclick="showToast('Thank you! Our hospital partnerships coordinator will contact you within 24 hours.'); closeModal('modal-hospital-partner');">
+          Submit Partnership Request
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Organ Telemetry Modal (Ref 1) -->
+  <div class="modal-backdrop" id="modal-organ-inspect">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="closeModal('modal-organ-inspect')">✕</button>
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+        <span style="font-size: 2.2rem;" id="organ-modal-icon">🫀</span>
+        <div>
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: #FFFFFF;" id="organ-modal-title">Heart Telemetry</h3>
+          <span style="font-size: 0.75rem; color: var(--mint-300);" id="organ-modal-sub">Coronary Hemodynamics</span>
+        </div>
+      </div>
+      <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;" id="organ-modal-body">
+        <!-- Filled dynamically -->
+      </div>
+      <button class="btn-primary-forest" style="width: 100%; justify-content: center;" onclick="navigateToView('cinema-booking'); closeModal('modal-organ-inspect');">
+        Book Specialist Vacancy
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notifications Mount -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- Main JavaScript State Engine -->
+  <script src="app.js"></script>
+</body>
+</html>
